@@ -1,5 +1,5 @@
 #include "dnaanalyzer.h"
-#include <iostream>
+#include <assert.h>
 
 DNAAnalyzer::DNAAnalyzer() : _chain(""), _dnaLength(0), _chromosomeLength(0), _repetitionLength(0)
 {
@@ -84,6 +84,7 @@ bool DNAAnalyzer::compare(const std::string &element)
 
 bool DNAAnalyzer::extractAndCompare(std::size_t startPosition, std::size_t separation) const
 {
+    assert(separation > 0);
     bool result = true;
     int position = startPosition;
 
@@ -95,11 +96,7 @@ bool DNAAnalyzer::extractAndCompare(std::size_t startPosition, std::size_t separ
     unsigned char currentValue;
     for (std::size_t i = 1; i < _repetitionLength /*&& static_cast<std::size_t>(position) < chainLength*/; ++i)
     {
-        std::cout << "i: " << i << ". position: " << position << std::endl;
-        std::cout << "chainLength: " << chainLength << ". chromosome Length: " << static_cast<std::size_t>(position) % _chromosomeLength << std::endl;
-        std::cout << "positionColumn: " << positionColumn << std::endl;
         if ((position >= 0) && (static_cast<std::size_t>(position) < chainLength) && (static_cast<std::size_t>(position) % _chromosomeLength >= positionColumn)) {
-            std::cout << "last: " << lastValue << ", current: " << currentValue << std::endl;
             currentValue = _chain[position];
             if (lastValue != currentValue) {
                 result = false;
