@@ -102,19 +102,13 @@ int main()
             //
             {
                 odb::transaction t (db->begin ());
-                odb::result<Statistics> r(db->query<Statistics>());
+                DNA_count dnaCountMutant(db->query_value<DNA_count>(odb::query<DNA_count>::isMutant == true));
+                DNA_count dnaCountHumans(db->query_value<DNA_count>(odb::query<DNA_count>::isMutant == false));
                 t.commit ();
-                unsigned long long mutantCount = 0;
-                unsigned long long humanCount = 0;
-                if (r.size() > 0) {
-                    for (auto row: r) {
-                        if (row.isMutant) {
-                            mutantCount = row.quantity;
-                        } else {
-                            humanCount = row.quantity;
-                        }
-                    }
-                }
+
+                unsigned long long mutantCount = dnaCountMutant.count;
+                unsigned long long humanCount = dnaCountHumans.count;
+
                 StatisticsCalculator sc(mutantCount, humanCount);
                 StatisticsParser sp;
                 result = sp.toJsonString(sc);

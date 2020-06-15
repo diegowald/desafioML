@@ -748,13 +748,13 @@ namespace odb
     return st.execute ();
   }
 
-  // Statistics
+  // DNA_count
   //
 
-  const char access::view_traits_impl< ::Statistics, id_pgsql >::
-  query_statement_name[] = "query_Statistics";
+  const char access::view_traits_impl< ::DNA_count, id_pgsql >::
+  query_statement_name[] = "query_DNA_count";
 
-  bool access::view_traits_impl< ::Statistics, id_pgsql >::
+  bool access::view_traits_impl< ::DNA_count, id_pgsql >::
   grow (image_type& i,
         bool* t)
   {
@@ -763,18 +763,14 @@ namespace odb
 
     bool grew (false);
 
-    // isMutant
+    // count
     //
     t[0UL] = 0;
-
-    // quantity
-    //
-    t[1UL] = 0;
 
     return grew;
   }
 
-  void access::view_traits_impl< ::Statistics, id_pgsql >::
+  void access::view_traits_impl< ::DNA_count, id_pgsql >::
   bind (pgsql::bind* b,
         image_type& i)
   {
@@ -785,22 +781,15 @@ namespace odb
 
     std::size_t n (0);
 
-    // isMutant
+    // count
     //
-    b[n].type = pgsql::bind::boolean_;
-    b[n].buffer = &i.isMutant_value;
-    b[n].is_null = &i.isMutant_null;
-    n++;
-
-    // quantity
-    //
-    b[n].type = pgsql::bind::integer;
-    b[n].buffer = &i.quantity_value;
-    b[n].is_null = &i.quantity_null;
+    b[n].type = pgsql::bind::bigint;
+    b[n].buffer = &i.count_value;
+    b[n].is_null = &i.count_null;
     n++;
   }
 
-  void access::view_traits_impl< ::Statistics, id_pgsql >::
+  void access::view_traits_impl< ::DNA_count, id_pgsql >::
   init (view_type& o,
         const image_type& i,
         database* db)
@@ -809,41 +798,30 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (i);
     ODB_POTENTIALLY_UNUSED (db);
 
-    // isMutant
+    // count
     //
     {
-      bool& v =
-        o.isMutant;
+      ::std::size_t& v =
+        o.count;
 
       pgsql::value_traits<
-          bool,
-          pgsql::id_boolean >::set_value (
+          ::std::size_t,
+          pgsql::id_bigint >::set_value (
         v,
-        i.isMutant_value,
-        i.isMutant_null);
-    }
-
-    // quantity
-    //
-    {
-      long unsigned int& v =
-        o.quantity;
-
-      pgsql::value_traits<
-          long unsigned int,
-          pgsql::id_integer >::set_value (
-        v,
-        i.quantity_value,
-        i.quantity_null);
+        i.count_value,
+        i.count_null);
     }
   }
 
-  access::view_traits_impl< ::Statistics, id_pgsql >::query_base_type
-  access::view_traits_impl< ::Statistics, id_pgsql >::
+  access::view_traits_impl< ::DNA_count, id_pgsql >::query_base_type
+  access::view_traits_impl< ::DNA_count, id_pgsql >::
   query_statement (const query_base_type& q)
   {
     query_base_type r (
-      "select \"DNA\".\"isMutant\", count(1) as quantity from \"DNA\" group by \"DNA\".\"isMutant\";");
+      "SELECT "
+      "count(1) ");
+
+    r += "FROM \"DNA\"";
 
     if (!q.empty ())
     {
@@ -855,8 +833,8 @@ namespace odb
     return r;
   }
 
-  result< access::view_traits_impl< ::Statistics, id_pgsql >::view_type >
-  access::view_traits_impl< ::Statistics, id_pgsql >::
+  result< access::view_traits_impl< ::DNA_count, id_pgsql >::view_type >
+  access::view_traits_impl< ::DNA_count, id_pgsql >::
   query (database&, const query_base_type& q)
   {
     using namespace pgsql;

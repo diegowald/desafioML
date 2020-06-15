@@ -33,11 +33,11 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (e);
   }
 
-  // Statistics
+  // DNA_count
   //
 
   inline
-  void access::view_traits< ::Statistics >::
+  void access::view_traits< ::DNA_count >::
   callback (database& db, view_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -70,7 +70,7 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (obj);
   }
 
-  // Statistics
+  // DNA_count
   //
 }
 

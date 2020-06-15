@@ -51,6 +51,15 @@ private:
 };
 
 
+#pragma db view object(DNA)
+struct DNA_count
+{
+#pragma db column("count(1)")
+    std::size_t count;
+};
+
+/*
+//#pragma db view query("select \"DNA\".\"isMutant\", count(1) as quantity from \"DNA\" group by \"DNA\".\"isMutant\";")
 #pragma db view query("select \"DNA\".\"isMutant\", count(1) as quantity from \"DNA\" group by \"DNA\".\"isMutant\";")
 struct Statistics
 {
@@ -60,6 +69,6 @@ struct Statistics
 #pragma db type("INTEGER")
     unsigned long quantity;
 };
-
+*/
 
 #endif // DTO_H

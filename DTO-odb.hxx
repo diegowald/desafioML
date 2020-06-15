@@ -94,20 +94,20 @@ namespace odb
     callback (database&, const object_type&, callback_event);
   };
 
-  // Statistics
+  // DNA_count
   //
   template <>
-  struct class_traits< ::Statistics >
+  struct class_traits< ::DNA_count >
   {
     static const class_kind kind = class_view;
   };
 
   template <>
-  class access::view_traits< ::Statistics >
+  class access::view_traits< ::DNA_count >
   {
     public:
-    typedef ::Statistics view_type;
-    typedef ::Statistics* pointer_type;
+    typedef ::DNA_count view_type;
+    typedef ::DNA_count* pointer_type;
 
     static void
     callback (database&, view_type&, callback_event);
@@ -335,24 +335,19 @@ namespace odb
   {
   };
 
-  // Statistics
+  // DNA_count
   //
   template <>
-  class access::view_traits_impl< ::Statistics, id_pgsql >:
-    public access::view_traits< ::Statistics >
+  class access::view_traits_impl< ::DNA_count, id_pgsql >:
+    public access::view_traits< ::DNA_count >
   {
     public:
     struct image_type
     {
-      // isMutant
+      // count
       //
-      bool isMutant_value;
-      bool isMutant_null;
-
-      // quantity
-      //
-      int quantity_value;
-      bool quantity_null;
+      long long count_value;
+      bool count_null;
 
       std::size_t version;
     };
@@ -360,9 +355,7 @@ namespace odb
     typedef pgsql::view_statements<view_type> statements_type;
 
     typedef pgsql::query_base query_base_type;
-    struct query_columns
-    {
-    };
+    struct query_columns;
 
     static const bool versioned = false;
 
@@ -379,7 +372,7 @@ namespace odb
           const image_type&,
           database*);
 
-    static const std::size_t column_count = 2UL;
+    static const std::size_t column_count = 1UL;
 
     static query_base_type
     query_statement (const query_base_type&);
@@ -391,13 +384,22 @@ namespace odb
   };
 
   template <>
-  class access::view_traits_impl< ::Statistics, id_common >:
-    public access::view_traits_impl< ::Statistics, id_pgsql >
+  class access::view_traits_impl< ::DNA_count, id_common >:
+    public access::view_traits_impl< ::DNA_count, id_pgsql >
   {
   };
 
   // DNA
   //
+  // DNA_count
+  //
+  struct access::view_traits_impl< ::DNA_count, id_pgsql >::query_columns:
+    odb::pointer_query_columns<
+      ::DNA,
+      id_pgsql,
+      odb::access::object_traits_impl< ::DNA, id_pgsql > >
+  {
+  };
 }
 
 #include "DTO-odb.ixx"
