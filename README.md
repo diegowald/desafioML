@@ -1,17 +1,33 @@
 # desafioML
 Desafio ML
 
+#Dependencias
+
+sudo apt install build-essential 
+sudo apt install qt5-default 
+sudo apt install libboost-all-dev 
+sudo apt install odb
+sudo apt install postgresql-client-common 
+sudo apt install postgresql-client-12
+sudo snap install docker
+
+
 
 #Instrucciones para compilar el codigo
 
-1) Por simplicidad mia utilice qmake. Para instalarlo en ubuntu: sudo apt-get install -y qt5-qmake
-2) qmake desafio.pro
-3) make
-4) Ejecutar el script ./startDocker.sh
-5) Ejecutar el script ./generateODBClasses.sh
-6) Ejecutar la aplicacion. Por cuestiones de simplifiacion la aplicacion estará oyendo el puerto 34125 
+Ejecutar 
+./buildAll.sh
+./dockerDB.sh
+./startDocker.sh
+./createDB.sh
+
 
 #Para probar la aplicacion
 
-Con postman ejecutar el post a localhost:34125.
+Desafio 2:
 
+IP: http://45.79.51.20:34125
+
+Desafio 3:
+
+IP: http://45.79.51.20:34126
