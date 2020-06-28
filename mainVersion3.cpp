@@ -29,12 +29,9 @@ unsigned long create(std::shared_ptr<DNA> e)
     try
     {
         std::unique_ptr<odb::database> db (create_database(user, password, dbName, host, port));
-        //
-        {
-            odb::transaction t (db->begin ());
-            id = db->persist (*e);
-            t.commit ();
-        }
+        odb::transaction t (db->begin ());
+        id = db->persist (*e);
+        t.commit ();
     }
     catch (const odb::exception& e)
     {
@@ -51,7 +48,7 @@ int main()
     mux.use_after(served::plugin::access_log);
 
     std::string address = "127.0.0.1";
-    std::string port = "34125";
+    std::string port = "34126";
     int numThreads = 1000;
 
     mux.handle("/mutant").post([](served::response &res, const served::request &req) {
